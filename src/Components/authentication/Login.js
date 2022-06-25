@@ -1,52 +1,48 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../Contexts/AuthContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
+import CenteredContainer from "./CenteredContainer";
 
-export default function Signup() {
+export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (passwordRef.current.value !== passwordConfirmRef.current.value)
-      return setError("Passwords do not match");
 
     try {
       setError("");
       setLoading(true);
 
       await toast.promise(
-        signup(emailRef.current.value, passwordRef.current.value),
+        login(emailRef.current.value, passwordRef.current.value),
         {
-          loading: "Creating your account...",
-          success: <b>Welcome!</b>,
-          error: <b>Failed to create account.</b>,
+          loading: "Logging in...",
+          success: <b>Welcome home!</b>,
+          error: <b>Failed to log in.</b>,
         }
       );
 
       navigate("/");
     } catch (err) {
-      console.log("hi");
-      setError("Email already exists or Password is insufficient.");
+      setError("Incorrect Password or Email.");
     }
 
     setLoading(false);
   };
 
   return (
-    <>
+    <CenteredContainer>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
+          <h2 className="text-center mb-4">Log In</h2>
 
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
@@ -68,24 +64,18 @@ export default function Signup() {
                 required
               />
             </Form.Group>
-            <Form.Group id="password-confirm" className="mb-4">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control
-                type="password"
-                ref={passwordConfirmRef}
-                placeholder="Password Confirmation"
-                required
-              />
-            </Form.Group>
             <Button className="w-100" type="submit" disabled={loading}>
-              Sign Up
+              Log In
             </Button>
           </Form>
+          <div className="w-100 text-center mt-3">
+            <Link to="/forgot-password">Forgot Password</Link>
+          </div>
         </Card.Body>
       </Card>
       <div className="w100 text-center mt-2">
-        Already have an account? <Link to="/login">Log in</Link>
+        Need an account? <Link to="/signup">Sign Up</Link>
       </div>
-    </>
+    </CenteredContainer>
   );
 }

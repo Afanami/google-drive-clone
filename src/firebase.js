@@ -1,4 +1,10 @@
 import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  serverTimestamp,
+  addDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 export const app = initializeApp({
@@ -9,5 +15,13 @@ export const app = initializeApp({
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDING_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
+
+export const firestore = getFirestore(app);
+export const db = {
+  folders: collection(firestore, "folders"),
+  files: collection(firestore, "files"),
+  getCurrentTimestamp: serverTimestamp,
+  addToCollection: addDoc,
+};
 
 export const auth = getAuth(app);

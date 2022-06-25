@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../Contexts/AuthContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Link } from "react-router-dom";
+import CenteredContainer from "./CenteredContainer";
+import toast from "react-hot-toast";
 
 export default function ForgotPassword() {
   const [error, setError] = useState("");
@@ -18,7 +20,13 @@ export default function ForgotPassword() {
       setError("");
       setMessage("");
       setLoading(true);
-      await resetPassword(emailRef.current.value);
+
+      await toast.promise(resetPassword(emailRef.current.value), {
+        loading: "Resetting password...",
+        success: <b>Password reset details sent!</b>,
+        error: <b>Email does not exist.</b>,
+      });
+
       setMessage("Check your inbox for further instructions");
     } catch (err) {
       console.log("hi");
@@ -29,7 +37,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <>
+    <CenteredContainer>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Password Reset</h2>
@@ -57,6 +65,6 @@ export default function ForgotPassword() {
       <div className="w100 text-center mt-2">
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
-    </>
+    </CenteredContainer>
   );
 }

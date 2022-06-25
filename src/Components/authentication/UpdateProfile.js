@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../Contexts/AuthContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import CenteredContainer from "./CenteredContainer";
 
 export default function UpdateProfile() {
   const [error, setError] = useState("");
@@ -34,7 +35,7 @@ export default function UpdateProfile() {
     toast.promise(
       Promise.all(promises)
         .then(() => {
-          navigate("/");
+          navigate("/user");
         })
         .catch(() => {
           setError("Failed to update account");
@@ -44,14 +45,14 @@ export default function UpdateProfile() {
         }),
       {
         loading: "Updating details...",
-        success: <b>Details saved!</b>,
-        error: <b>Could not save.</b>,
+        success: <b>Details updated!</b>,
+        error: <b>Failed to update account.</b>,
       }
     );
   };
 
   return (
-    <>
+    <CenteredContainer>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Update Profile</h2>
@@ -91,8 +92,8 @@ export default function UpdateProfile() {
         </Card.Body>
       </Card>
       <div className="w100 text-center mt-2">
-        <Link to="/">Cancel</Link>
+        <Link to="/user">Cancel</Link>
       </div>
-    </>
+    </CenteredContainer>
   );
 }
