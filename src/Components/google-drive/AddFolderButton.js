@@ -50,7 +50,7 @@ export default function AddFolderButton({ currentFolder }) {
 
   return (
     <>
-      <Button onClick={toggleModal} variant="outline-success" size="sm">
+      <Button onClick={toggleModal} variant="primary" size="sm">
         <RiFolderAddFill />
       </Button>
       <Modal show={open} onHide={toggleModal}>
@@ -71,7 +71,7 @@ export default function AddFolderButton({ currentFolder }) {
             <Button variant="secondary" onClick={toggleModal}>
               Close
             </Button>
-            <Button variant="success" type="submit">
+            <Button variant="primary" type="submit">
               Add Folder
             </Button>
           </Modal.Footer>
