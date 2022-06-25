@@ -4,6 +4,8 @@ import {
   collection,
   serverTimestamp,
   addDoc,
+  getDoc,
+  doc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -16,12 +18,22 @@ export const app = initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
+export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const db = {
   folders: collection(firestore, "folders"),
   files: collection(firestore, "files"),
+  formatDoc: (doc) => {
+    return { id: doc.id, ...doc.data() };
+  },
   getCurrentTimestamp: serverTimestamp,
   addToCollection: addDoc,
 };
 
-export const auth = getAuth(app);
+export const documentFolder = (id) => {
+  return doc(firestore, "folders", id);
+};
+
+export const documentFile = (id) => {
+  return doc(firestore, "files", id);
+};

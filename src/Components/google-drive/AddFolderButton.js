@@ -23,7 +23,7 @@ export default function AddFolderButton({ currentFolder }) {
     e.preventDefault();
 
     try {
-      if (currentFolder === null) return;
+      if (currentFolder == null) return;
 
       await toast.promise(
         db.addToCollection(db.folders, {
@@ -31,7 +31,7 @@ export default function AddFolderButton({ currentFolder }) {
           userId: currentUser.uid,
           name: name?.trim(),
           // path,
-          // parentId: currentFolder.id,
+          parentId: currentFolder.id,
         }),
         {
           loading: "Creating folder...",
@@ -62,6 +62,7 @@ export default function AddFolderButton({ currentFolder }) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                autoFocus
                 required
               />
             </Form.Group>

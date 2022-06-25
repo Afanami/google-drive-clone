@@ -22,6 +22,20 @@ function App() {
       <Toaster />
       <Router>
         <Routes>
+          {/* GDRIVE */}
+          <Route
+            exact
+            path="/folder/:folderId"
+            element={
+              currentUser ? (
+                <Dashboard />
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
+            }
+          />
+
+          {/* PROFILE */}
           <Route
             exact
             path="/"
@@ -33,7 +47,6 @@ function App() {
               )
             }
           />
-
           <Route
             path="/user"
             element={
@@ -54,6 +67,8 @@ function App() {
               )
             }
           />
+
+          {/* AUTH */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
