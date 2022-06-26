@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { Button, Modal, Form } from "react-bootstrap";
-import { RiFolderAddFill } from "react-icons/ri";
 import { db } from "../../firebase";
 import { useAuth } from "../../Contexts/AuthContext";
-import toast from "react-hot-toast";
+import { ROOT_FOLDER } from "../../Hooks/useFolder";
+import { RiFolderAddFill } from "react-icons/ri";
 
 export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
@@ -25,12 +26,17 @@ export default function AddFolderButton({ currentFolder }) {
     try {
       if (currentFolder == null) return;
 
+      const path = [...currentFolder.path];
+      if (currentFolder !== ROOT_FOLDER) {
+        path.push({ id: currentFolder.id, name: currentFolder.name });
+      }
+
       await toast.promise(
         db.addToCollection(db.folders, {
           createdAt: db.getCurrentTimestamp(),
           userId: currentUser.uid,
           name: name?.trim(),
-          // path,
+          path: path,
           parentId: currentFolder.id,
         }),
         {

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Link } from "react-router-dom";
 import CenteredContainer from "./CenteredContainer";
-import toast from "react-hot-toast";
 
 export default function ForgotPassword() {
   const [error, setError] = useState("");
@@ -29,7 +29,6 @@ export default function ForgotPassword() {
 
       setMessage("Check your inbox for further instructions");
     } catch (err) {
-      console.log("hi");
       setError("Email does not exist.");
     }
 

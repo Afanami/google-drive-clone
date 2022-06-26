@@ -4,10 +4,19 @@ import {
   collection,
   serverTimestamp,
   addDoc,
-  getDoc,
   doc,
+  where,
+  query,
+  getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 export const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -20,6 +29,8 @@ export const app = initializeApp({
 
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
+export const storage = getStorage(app);
+
 export const db = {
   folders: collection(firestore, "folders"),
   files: collection(firestore, "files"),
@@ -28,6 +39,7 @@ export const db = {
   },
   getCurrentTimestamp: serverTimestamp,
   addToCollection: addDoc,
+  getDownloadURL: getDownloadURL,
 };
 
 export const documentFolder = (id) => {
@@ -36,4 +48,40 @@ export const documentFolder = (id) => {
 
 export const documentFile = (id) => {
   return doc(firestore, "files", id);
+};
+
+export const uploadFile = (filePath, file) => {
+  const fileRef = ref(storage, filePath);
+  return uploadBytesResumable(fileRef, file);
+};
+
+export const addOrUpdateFile = async (fileName, userId, folderId, url) => {
+  const userFilesQuery = query(
+    db.files,
+    where("name", "==", fileName),
+    where("userId", "==", userId),
+    where("folderId", "==", folderId)
+  );
+
+  const files = await getDocs(userFilesQuery);
+  const file = files.docs[0];
+
+  // if exists already
+  if (file && file.exists()) {
+    await updateDoc(file.ref, {
+      updatedAt: db.getCurrentTimestamp(),
+      url: url,
+    });
+    console.log(`Update success`);
+  } else {
+    await db.addToCollection(db.files, {
+      createdAt: db.getCurrentTimestamp(),
+      updatedAt: db.getCurrentTimestamp(),
+      userId: userId,
+      name: fileName?.trim(),
+      url: url,
+      folderId: folderId,
+    });
+    console.log(`Upload success`);
+  }
 };

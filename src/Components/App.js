@@ -5,7 +5,6 @@ import Profile from "./authentication/Profile";
 import ForgotPassword from "./authentication/ForgotPassword";
 import UpdateProfile from "./authentication/UpdateProfile";
 import Dashboard from "./google-drive/Dashboard";
-import { Toaster } from "react-hot-toast";
 import { useAuth } from "../Contexts/AuthContext";
 import {
   BrowserRouter as Router,
@@ -19,7 +18,6 @@ function App() {
 
   return (
     <>
-      <Toaster />
       <Router>
         <Routes>
           {/* GDRIVE */}

@@ -3,12 +3,13 @@ import { db, documentFolder } from "../firebase";
 import { getDoc, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useAuth } from "../Contexts/AuthContext";
 
-const ROOT_FOLDER = { name: "Root", id: null, path: [] };
+export const ROOT_FOLDER = { name: "Root", id: null, path: [] };
 
 const ACTIONS = {
   SELECT_FOLDER: "select-folder",
   UPDATE_FOLDER: "update-folder",
   SET_CHILD_FOLDERS: "set-child-folders",
+  SET_CHILD_FILES: "set-child-files",
 };
 
 const reducer = (state, { type, payload }) => {
@@ -29,6 +30,11 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         childFolders: payload.childFolders,
+      };
+    case ACTIONS.SET_CHILD_FILES:
+      return {
+        ...state,
+        childFiles: payload.childFiles,
       };
     default:
       return state;
@@ -64,7 +70,7 @@ export default function useFolder(folderId = null, folder = null) {
         });
       })
       .catch(() => {
-        return dispatch({
+        dispatch({
           type: ACTIONS.UPDATE_FOLDER,
           payload: { folder: ROOT_FOLDER },
         });
@@ -94,5 +100,30 @@ export default function useFolder(folderId = null, folder = null) {
       }
     );
   }, [folderId, currentUser]);
+
+  useEffect(() => {
+    const userFilesQuery = query(
+      db.files,
+      where("folderId", "==", folderId),
+      where("userId", "==", currentUser.uid),
+      orderBy("createdAt")
+    );
+
+    // onSnapshot returns unsubscribe function
+    return onSnapshot(
+      userFilesQuery,
+      { includeMetadataChanges: true },
+      (snapshot) => {
+        const docs = [];
+        snapshot.forEach((doc) => docs.push(db.formatDoc(doc)));
+        // console.log(docs);
+        dispatch({
+          type: ACTIONS.SET_CHILD_FILES,
+          payload: { childFiles: docs },
+        });
+      }
+    );
+  }, [folderId, currentUser]);
+
   return state;
 }

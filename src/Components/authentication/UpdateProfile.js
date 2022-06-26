@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import CenteredContainer from "./CenteredContainer";
 
 export default function UpdateProfile() {
