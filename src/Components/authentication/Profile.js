@@ -34,9 +34,12 @@ export default function Profile() {
           </Link>
         </Card.Body>
       </Card>
-      <div className="w100 text-center mt-2">
+      <div className="d-flex flex-column w100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
           Log Out
+        </Button>
+        <Button variant="link" as={Link} to="/">
+          Back To Drive?
         </Button>
       </div>
     </CenteredContainer>

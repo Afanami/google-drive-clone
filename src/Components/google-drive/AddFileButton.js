@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import toast from "react-hot-toast";
 import { FaFileUpload } from "react-icons/fa";
 import { useAuth } from "../../Contexts/AuthContext";
 import { addOrUpdateFile, db, uploadFile } from "../../firebase";
@@ -40,7 +41,10 @@ export default function AddFileButton({ currentFolder }) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = snapshot.bytesTransferred / snapshot.totalBytes;
+        const progress =
+          snapshot.totalBytes < 200000
+            ? 0.99
+            : snapshot.bytesTransferred / snapshot.totalBytes;
         setUploadingFiles((prevUploadingFiles) => {
           return prevUploadingFiles.map((uploadFile) => {
             if (uploadFile.id === id) {
@@ -61,6 +65,8 @@ export default function AddFileButton({ currentFolder }) {
             return uploadFile;
           });
         });
+
+        toast.error("Failed to upload file.");
       },
       () => {
         setUploadingFiles((prevUploadingFiles) => {
@@ -105,7 +111,7 @@ export default function AddFileButton({ currentFolder }) {
                 <Toast.Header
                   className="text-truncate w-100 justify-content-between"
                   closeButton={file.error}>
-                  {file.name}
+                  Uploading: {file.name}
                 </Toast.Header>
                 <Toast.Body>
                   <ProgressBar

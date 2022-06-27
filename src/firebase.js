@@ -17,6 +17,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import toast from "react-hot-toast";
 
 export const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -72,6 +73,7 @@ export const addOrUpdateFile = async (fileName, userId, folderId, url) => {
       updatedAt: db.getCurrentTimestamp(),
       url: url,
     });
+    toast.success("Successfully updated!");
     console.log(`Update success`);
   } else {
     await db.addToCollection(db.files, {
@@ -82,6 +84,7 @@ export const addOrUpdateFile = async (fileName, userId, folderId, url) => {
       url: url,
       folderId: folderId,
     });
+    toast.success("Successfully uploaded!");
     console.log(`Upload success`);
   }
 };
