@@ -1,3 +1,5 @@
+import { BASE_URL } from "../config.js";
+
 describe("Login Page", () => {
   // beforeEach(() => {
   //   cy.visit("https://moogledrive.com");
@@ -5,9 +7,7 @@ describe("Login Page", () => {
 
   // Visiting website redirects user to login
   it("Redirects to login", () => {
-    cy.visit("https://moogledrive.com")
-      .url()
-      .should("eq", "https://moogledrive.com/login");
+    cy.visit(`${BASE_URL}`).url().should("eq", `${BASE_URL}/login`);
   });
 
   // Forgot password link redirects correctly
@@ -15,7 +15,7 @@ describe("Login Page", () => {
     cy.get(`a[href="/forgot-password"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/forgot-password")
+      .should("eq", `${BASE_URL}/forgot-password`)
       .get(".card-body > h2")
       .should("contain.text", "Password Reset")
       .go("back");
@@ -26,7 +26,7 @@ describe("Login Page", () => {
     cy.get(`a[href="/signup"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/signup")
+      .should("eq", `${BASE_URL}/signup`)
       .get(".card-body > h2")
       .should("contain.text", "Sign Up")
       .go("back");
@@ -51,7 +51,7 @@ describe("Login Page", () => {
     cy.get("button.btn-primary")
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/")
+      .should("eq", `${BASE_URL}/`)
       .get(".navbar")
       .should("contain.text", "Google Drive Clone")
       .should("contain.text", "Profile");
@@ -65,7 +65,7 @@ describe("Login Page", () => {
       .should("contain.text", "Log Out")
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/login");
+      .should("eq", `${BASE_URL}/login`);
   });
 
   // User login fails

@@ -56,7 +56,11 @@ export default function AddFolderButton({ currentFolder }) {
 
   return (
     <>
-      <Button onClick={toggleModal} variant="primary" size="sm">
+      <Button
+        id="upload-folder-btn"
+        onClick={toggleModal}
+        variant="primary"
+        size="sm">
         <RiFolderAddFill />
       </Button>
       <Modal show={open} onHide={toggleModal}>

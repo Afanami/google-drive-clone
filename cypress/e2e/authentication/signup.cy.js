@@ -1,3 +1,5 @@
+import { BASE_URL } from "../config.js";
+
 describe("Sign Up Page", () => {
   // beforeEach(() => {
   //   cy.visit("https://moogledrive.com");
@@ -5,13 +7,13 @@ describe("Sign Up Page", () => {
 
   // Signup page loads correctly
   it("Sign up page loads", () => {
-    cy.visit("https://moogledrive.com")
+    cy.visit(`${BASE_URL}`)
       .url()
-      .should("eq", "https://moogledrive.com/login")
+      .should("eq", `${BASE_URL}/login`)
       .get(`a[href="/signup"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/signup")
+      .should("eq", `${BASE_URL}/signup`)
       .get(".card-body > h2")
       .should("contain.text", "Sign Up");
   });
@@ -21,18 +23,11 @@ describe("Sign Up Page", () => {
     cy.get(`a[href="/login"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/login")
+      .should("eq", `${BASE_URL}/login`)
       .get(".card-body > h2")
       .should("contain.text", "Log In")
       .go("back");
   });
-
-  // // Typing into email field works as intended
-  // it("Enter Email", () => {
-  //   cy.get("#email > input")
-  //     .type("e2e@test.com")
-  //     .should("have.value", "e2e@test.com");
-  // });
 
   // Typing into email field works as intended
   it("Enter Email", () => {
@@ -68,7 +63,7 @@ describe("Sign Up Page", () => {
     cy.get("button.btn-primary")
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/")
+      .should("eq", `${BASE_URL}/`)
       .get(".navbar")
       .should("contain.text", "Google Drive Clone")
       .should("contain.text", "Profile")
@@ -78,7 +73,7 @@ describe("Sign Up Page", () => {
       .should("contain.text", "Log Out")
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/login");
+      .should("eq", `${BASE_URL}/login`);
   });
 });
 

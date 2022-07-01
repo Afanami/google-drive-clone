@@ -20,7 +20,7 @@ export default function Dashboard() {
   const renderChildFolders = () => {
     return (
       childFolders?.length > 0 && (
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap child-folders">
           {childFolders.map((childFolder) => {
             return (
               <div
@@ -39,7 +39,7 @@ export default function Dashboard() {
   const renderChildFiles = () => {
     return (
       childFiles?.length > 0 && (
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap child-files">
           {childFiles.map((childFile) => {
             return (
               <div

@@ -136,7 +136,7 @@ export default function AddFileButton({ currentFolder }) {
 
   return (
     <>
-      <label className="btn btn-primary btn-sm me-2">
+      <label className="btn btn-primary btn-sm me-2 upload-file-btn">
         <FaFileUpload />
         <input className="d-none" type="file" onChange={handleUpload} />
       </label>

@@ -1,3 +1,5 @@
+import { BASE_URL } from "../config.js";
+
 describe("Forgot Password Page", () => {
   // beforeEach(() => {
   //   cy.visit("https://moogledrive.com");
@@ -5,13 +7,13 @@ describe("Forgot Password Page", () => {
 
   // Forgot password page loads correctly
   it("Forgot password page loads", () => {
-    cy.visit("https://moogledrive.com")
+    cy.visit(`${BASE_URL}`)
       .url()
-      .should("eq", "https://moogledrive.com/login")
+      .should("eq", `${BASE_URL}/login`)
       .get(`a[href="/forgot-password"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/forgot-password")
+      .should("eq", `${BASE_URL}/forgot-password`)
       .get(".card-body > h2")
       .should("contain.text", "Password Reset");
   });
@@ -21,7 +23,7 @@ describe("Forgot Password Page", () => {
     cy.get(`a[href="/login"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/login")
+      .should("eq", `${BASE_URL}/login`)
       .get(".card-body > h2")
       .should("contain.text", "Log In")
       .go("back");
@@ -32,7 +34,7 @@ describe("Forgot Password Page", () => {
     cy.get(`a[href="/signup"]`)
       .click()
       .url()
-      .should("eq", "https://moogledrive.com/signup")
+      .should("eq", `${BASE_URL}/signup`)
       .get(".card-body > h2")
       .should("contain.text", "Sign Up")
       .go("back");
