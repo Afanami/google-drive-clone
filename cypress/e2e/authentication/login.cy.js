@@ -18,7 +18,7 @@ describe("Login Page", () => {
       .should("eq", "https://moogledrive.com/forgot-password")
       .get(".card-body > h2")
       .should("contain.text", "Password Reset")
-      .visit("https://moogledrive.com");
+      .go("back");
   });
 
   // Sign up link redirects correctly
@@ -29,7 +29,7 @@ describe("Login Page", () => {
       .should("eq", "https://moogledrive.com/signup")
       .get(".card-body > h2")
       .should("contain.text", "Sign Up")
-      .visit("https://moogledrive.com");
+      .go("back");
   });
 
   // Typing into email field works as intended
@@ -66,5 +66,17 @@ describe("Login Page", () => {
       .click()
       .url()
       .should("eq", "https://moogledrive.com/login");
+  });
+
+  // User login fails
+  it("Fails to log user in and returns prompt", () => {
+    cy.get("#email > input")
+      .type("e2e@doesnotexisttest.com")
+      .get("#password > input")
+      .type("e2etest123")
+      .get("button.btn-primary")
+      .click()
+      .get(".alert-danger")
+      .should("contain.text", "Incorrect Password or Email");
   });
 });
