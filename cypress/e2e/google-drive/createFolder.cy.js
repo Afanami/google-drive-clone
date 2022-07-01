@@ -3,26 +3,25 @@ import { BASE_URL } from "../config.js";
 describe("Login Page", () => {
   // Login
   before(() => {
-    cy.visit(`${BASE_URL}/`);
-    // .url()
-    // .get("#email > input")
-    // .type("e2e@test.com")
-    // .get("#password > input")
-    // .type("e2etest123")
-    // .get("button.btn-primary")
-    // .click();
+    cy.visit(`${BASE_URL}/`)
+      .url()
+      .get("#email > input")
+      .type("e2e@test.com")
+      .get("#password > input")
+      .type("e2etest123")
+      .get("button.btn-primary")
+      .click();
   });
 
   // Logout after tests complete
-  // after(() => {
-  //   cy.visit(`${BASE_URL}/`)
-
-  //     .get(".nav-link")
-  //     .should("exist")
-  //     .click()
-  //     .get("button.btn-link")
-  //     .click();
-  // });
+  after(() => {
+    cy.visit(`${BASE_URL}/`)
+      .get(".nav-link")
+      .should("exist")
+      .click()
+      .get("button.btn-link")
+      .click();
+  });
 
   // Test clicking folder button works
   it("Folder click brings up modal", () => {
@@ -60,7 +59,8 @@ describe("Login Page", () => {
       cy.get(".modal-footer > .btn-primary")
         .click()
         .get(".child-folders")
-        .should("contain.text", `Test Folder ${folder.folderId}`);
+        .should("contain.text", `Test Folder ${folder.folderId}`)
+        .wait(5000);
     });
   });
 });
