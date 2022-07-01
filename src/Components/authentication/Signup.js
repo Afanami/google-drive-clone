@@ -36,7 +36,6 @@ export default function Signup() {
 
       navigate("/");
     } catch (err) {
-      console.log("hi");
       setError("Email already exists or Password is insufficient.");
     }
 
