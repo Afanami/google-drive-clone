@@ -20,6 +20,7 @@ describe("Login Page", () => {
       .should("exist")
       .click()
       .get("button.btn-link")
+      .should("exist")
       .click();
   });
 
